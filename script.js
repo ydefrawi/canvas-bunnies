@@ -11,6 +11,7 @@
 })();
 
 
+
 let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d")
 let cWidth = 500
@@ -18,17 +19,18 @@ let cHeight = 500
 canvas.width = cWidth;
 canvas.height = cHeight;
 const bunniesArray = [];
+const colors=["blue","teal","red","orange","purple","pink"];
 
-class BunnyFactory{
-  constructor(){ 
-  }
-  createBunny(){
-    return new Bunny(cWidth/2, cHeight/2, 20, 20)
-  }
-}
+// class BunnyFactory{
+//   constructor(){ 
+//   }
+//   createBunny(){
+//     return new Bunny(cWidth/2, cHeight/2, 20, 20)
+//   }
+// }
 
 class Bunny{
-  constructor(x, y, height, width){
+  constructor(x, y, height, width, color, name){
     this.x=x;
     this.y=y;
     this.height=height;
@@ -36,6 +38,9 @@ class Bunny{
     this.speed=3; 
     this.velX=0;
     this.velY=0;
+    this.color=color;
+    this.name=name;
+
   }
 
   moveBunny(){
@@ -46,12 +51,20 @@ class Bunny{
       this.x = 0;
     }
 
+    if (this.y >= cHeight - this.height) {
+      this.y = cHeight - this.height;
+    } else if (this.y <= 0) {
+      this.y = 0;
+    }
+
+    //todo: collision detection for top/bottom
+
+    //? not being used
     this.x += this.velX;
     this.y += this.velY;
 
     //random movement
     let direction = getDirection(4);
-
     if (direction === 0) {
         this.x+=this.width
     } else if (direction === 1) {
@@ -64,13 +77,24 @@ class Bunny{
   }
 
     //draws bunny
-    drawBunny(color){
-    ctx.fillStyle = "red";
+    drawBunny(){
+    ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
 }
+    //mingle
+    mingle(){
+      //logic: two bunnies interact when they collide
+    }
+
+    die(){
+      //filter bunny out of bunniesArray
+    }
+
+    fight(){
+      //
+    }
 }
 
-// const bob=new Bunny(cWidth/2, cHeight/2, 20, 20)
 
 function getDirection(max) {
 	return Math.floor(Math.random() * max);
@@ -79,20 +103,14 @@ function getDirection(max) {
 
 function update() {
 
-  //collision detection for left/right side
-
-
-  //todo: collision detection for top/bottom
-
   ctx.clearRect(0, 0, cWidth, cHeight);
-
   bunniesArray.forEach((bunny) => {
     bunny.drawBunny();
     bunny.moveBunny();
-    
   });
-  // drawBunny();
-  // moveBunny();
+
+  //todo if two bunnies collide, call appropriate function
+
   requestAnimationFrame(update);
 }
 
@@ -105,8 +123,10 @@ function update() {
 // });
 
 window.addEventListener("load", function() {
+  console.log(Math.floor(Math.random()*colors.length))
   for (let index = 0; index <= 4; index++) {
-    bunniesArray[index]=new Bunny(cWidth/2, cHeight/2, 20, 20)
+    bunniesArray[index]=new Bunny(cWidth/2, cHeight/2, 20, 20, colors[Math.floor(Math.random()*colors.length)], rabbitNames[Math.floor(Math.random()*rabbitNames.length)])
+    console.log(bunniesArray[index])
   }
   update();
 });
