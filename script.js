@@ -16,11 +16,9 @@ let cHeight = 500
 canvas.width = cWidth;
 canvas.height = cHeight;
 const bunniesArray = [];
+const numBunnies=6;
+const colors=["blue","teal","red","orange","BlueViolet","green","yellow", "Crimson", "Coral"];
 
-const colors=["blue","teal","red","orange","purple","green","yellow"];
-
-//number of starting bunnies
-const numBunnies=4;
 
 
 //Bunny constructor
@@ -30,7 +28,7 @@ class Bunny{
     this.y=y;
     this.height=height;
     this.width=width;
-    this.speed=3; 
+    this.speed=2; 
     this.velX=0;
     this.velY=0;
     this.color=color;
@@ -61,6 +59,9 @@ class Bunny{
     //? being used?
     this.x += this.velX;
     this.y += this.velY;
+      
+    
+ 
 
     //collision detection for left/right wall
     if (this.x >= cWidth - this.width) {
@@ -123,6 +124,7 @@ class Bunny{
 }
 
 
+//! utility functions
 function getDirection(max) {
 	return Math.floor(Math.random() * max);
 }
@@ -142,6 +144,13 @@ function namePicker(){
 function agePicker(){
   return (Math.random() * 3)
 }
+
+function genderPicker(){
+  let random=Math.floor(Math.random() * 2)
+  if (random===0) return "male"
+  else if (random===1) return "female"
+}
+console.log(genderPicker());
 
 //----------------Main Draw Function-----------------//
 function update() {
@@ -163,11 +172,14 @@ function update() {
 
 
 //starts simulation when Start button is clicked
+//! For some reason hitting start more than once speeds things up
 document.getElementById("start-btn").addEventListener("click",function() {
   for (let index = 1; index <= numBunnies; index++) {
-    bunniesArray[index]=new Bunny(locationPicker(), locationPicker(), 20, 20, colorPicker(), namePicker(), agePicker())
+    //x, y, width, height, color, name, age, gender
+    bunniesArray[index]=new Bunny(locationPicker(), locationPicker(), 20, 20, colorPicker(), namePicker(), agePicker(),genderPicker())
     console.log(bunniesArray[index].name,"was born!")
     console.log(bunniesArray[index])
+
   }
   update();
 }); 
