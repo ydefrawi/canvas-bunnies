@@ -1,6 +1,5 @@
 //!instantiate multiple rabbits that draw at separate coordinates, that move independently, and have certain collision mechanics
 
-
 (function() {
     var requestAnimationFrame = window.requestAnimationFrame ||
         window.mozRequestAnimationFrame ||
@@ -12,6 +11,8 @@
 
 
 
+
+
 let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d")
 let cWidth = 500
@@ -19,11 +20,11 @@ let cHeight = 500
 canvas.width = cWidth;
 canvas.height = cHeight;
 const bunniesArray = [];
-const colors=["blue","teal","red","orange","purple","pink"];
+const colors=["blue","teal","red","orange","purple","green","yellow"];
 
 //Bunny constructor
 class Bunny{
-  constructor(x, y, height, width, color, name){
+  constructor(x, y, height, width, color, name, gender){
     this.x=x;
     this.y=y;
     this.height=height;
@@ -33,43 +34,48 @@ class Bunny{
     this.velY=0;
     this.color=color;
     this.name=name;
+    this.gender=gender;
   }
 
   //moves bunnies
   moveBunny(){
-    
     //random movement
     let direction = getDirection(4);
     if (direction === 0) {
-        this.x+=this.width
+        //right
+        this.velX=this.speed;
     } else if (direction === 1) {
-        this.y+=this.height
+      //up
+        this.velY=this.speed;
     } else if (direction === 2) {
-        this.x+=-this.width
-    } else if (direction === 3) {
-        this.y+=-this.height
+      //left
+        this.velX=-this.speed;
+      } else if (direction === 3) { 
+      //down
+        this.velY=-this.speed; 
     }
+
+    //? being used?
+    this.x += this.velX;
+    this.y += this.velY;
 
     //collision detection for left/right wall
     if (this.x >= cWidth - this.width) {
       this.x = cWidth - this.width;
+      this.velX--;
     } else if (this.x <= 0) {
       this.x = 0;
+      this.velX++
     }
 
     //collision detection for top/bottom
     if (this.y >= cHeight - this.height) {
       this.y = cHeight - this.height;
+      this.velY--
     } else if (this.y <= 0) {
       this.y = 0;
+      this.velY++
     }
-
-
-    //? not being used
-    this.x += this.velX;
-    this.y += this.velY;
-
-
   }
 
     //draws bunny
@@ -83,11 +89,11 @@ class Bunny{
     }
 
     die(){
-      //filter bunny out of bunniesArray
+      //filter bunny out of bunnies Array
     }
 
     fight(){
-      //
+      //logic: if two males or two females meet, one dies
     }
 }
 
@@ -95,7 +101,6 @@ class Bunny{
 function getDirection(max) {
 	return Math.floor(Math.random() * max);
 }
-
 
 function update() {
 
@@ -110,18 +115,35 @@ function update() {
   requestAnimationFrame(update);
 }
 
-
+//randomly chooses color from colors array 
 function colorPicker(){
   return colors[Math.floor(Math.random()*colors.length)]
 }
 
-colorPicker();
+//generates an int (coordinate) between 0 and 500
+function locationPicker(){
+  return  Math.floor(Math.random() * 500)
+}
 
-window.addEventListener("load", function() {
+function namePicker(){
+  return rabbitNames[Math.floor(Math.random()*rabbitNames.length)]
+}
+
+document.getElementById("start-btn").addEventListener("click",function() {
   console.log(Math.floor(Math.random()*colors.length))
   for (let index = 0; index <= 4; index++) {
-    bunniesArray[index]=new Bunny(cWidth/2, cHeight/2, 20, 20, colorPicker(), rabbitNames[Math.floor(Math.random()*rabbitNames.length)])
+    bunniesArray[index]=new Bunny(locationPicker(), locationPicker(), 20, 20, colorPicker(), namePicker())
     console.log(bunniesArray[index])
   }
   update();
-});
+}); 
+
+
+// window.addEventListener("load", function() {
+//   console.log(Math.floor(Math.random()*colors.length))
+//   for (let index = 0; index <= 4; index++) {
+//     bunniesArray[index]=new Bunny(locationPicker(), locationPicker(), 20, 20, colorPicker(), namePicker())
+//     console.log(bunniesArray[index])
+//   }
+//   update();
+// });
