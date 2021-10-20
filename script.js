@@ -9,10 +9,6 @@
   window.requestAnimationFrame = requestAnimationFrame;
 })();
 
-
-
-
-
 let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d")
 let cWidth = 500
@@ -103,7 +99,6 @@ function getDirection(max) {
 }
 
 function update() {
-
   ctx.clearRect(0, 0, cWidth, cHeight);
   bunniesArray.forEach((bunny) => {
     bunny.drawBunny();
@@ -119,16 +114,16 @@ function update() {
 function colorPicker(){
   return colors[Math.floor(Math.random()*colors.length)]
 }
-
 //generates an int (coordinate) between 0 and 500
 function locationPicker(){
   return  Math.floor(Math.random() * 500)
 }
-
+//randomly selects a name from rabbitNames
 function namePicker(){
   return rabbitNames[Math.floor(Math.random()*rabbitNames.length)]
 }
 
+//starts simulation when Start button is clicked
 document.getElementById("start-btn").addEventListener("click",function() {
   console.log(Math.floor(Math.random()*colors.length))
   for (let index = 0; index <= 4; index++) {
