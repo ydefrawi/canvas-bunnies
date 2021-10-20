@@ -21,14 +21,7 @@ canvas.height = cHeight;
 const bunniesArray = [];
 const colors=["blue","teal","red","orange","purple","pink"];
 
-// class BunnyFactory{
-//   constructor(){ 
-//   }
-//   createBunny(){
-//     return new Bunny(cWidth/2, cHeight/2, 20, 20)
-//   }
-// }
-
+//Bunny constructor
 class Bunny{
   constructor(x, y, height, width, color, name){
     this.x=x;
@@ -40,7 +33,6 @@ class Bunny{
     this.velY=0;
     this.color=color;
     this.name=name;
-
   }
 
   moveBunny(){
@@ -51,13 +43,13 @@ class Bunny{
       this.x = 0;
     }
 
+    //collision detection for top/bottom
     if (this.y >= cHeight - this.height) {
       this.y = cHeight - this.height;
     } else if (this.y <= 0) {
       this.y = 0;
     }
 
-    //todo: collision detection for top/bottom
 
     //? not being used
     this.x += this.velX;
@@ -114,18 +106,17 @@ function update() {
   requestAnimationFrame(update);
 }
 
-// document.body.addEventListener("keydown", function(e) {
-//   keys[e.keyCode] = true;
-// });
 
-// document.body.addEventListener("keyup", function(e) {
-//   keys[e.keyCode] = false;
-// });
+function colorPicker(){
+  return colors[Math.floor(Math.random()*colors.length)]
+}
+
+colorPicker();
 
 window.addEventListener("load", function() {
   console.log(Math.floor(Math.random()*colors.length))
   for (let index = 0; index <= 4; index++) {
-    bunniesArray[index]=new Bunny(cWidth/2, cHeight/2, 20, 20, colors[Math.floor(Math.random()*colors.length)], rabbitNames[Math.floor(Math.random()*rabbitNames.length)])
+    bunniesArray[index]=new Bunny(cWidth/2, cHeight/2, 20, 20, colorPicker(), rabbitNames[Math.floor(Math.random()*rabbitNames.length)])
     console.log(bunniesArray[index])
   }
   update();
