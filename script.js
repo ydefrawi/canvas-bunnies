@@ -31,6 +31,7 @@ class Bunny{
     this.color=color;
     this.name=name;
     this.gender=gender;
+    this.age=0;
   }
 
   //moves bunnies
@@ -75,20 +76,20 @@ class Bunny{
   }
 
     //draws bunny
-    drawBunny(){
+  drawBunny(){
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
 }
     //mingle
-    mingle(){
+  mingle(){
       //logic: two bunnies interact when they collide
     }
 
-    die(){
+  die(){
       //filter bunny out of bunnies Array
     }
 
-    fight(){
+  fight(){
       //logic: if two males or two females meet, one dies
     }
 }
@@ -96,18 +97,6 @@ class Bunny{
 
 function getDirection(max) {
 	return Math.floor(Math.random() * max);
-}
-
-function update() {
-  ctx.clearRect(0, 0, cWidth, cHeight);
-  bunniesArray.forEach((bunny) => {
-    bunny.drawBunny();
-    bunny.moveBunny();
-  });
-
-  //todo if two bunnies collide, call appropriate function
-
-  requestAnimationFrame(update);
 }
 
 //randomly chooses color from colors array 
@@ -122,6 +111,22 @@ function locationPicker(){
 function namePicker(){
   return rabbitNames[Math.floor(Math.random()*rabbitNames.length)]
 }
+
+
+//----------------Main Draw Function-----------------//
+function update() {
+  ctx.clearRect(0, 0, cWidth, cHeight);
+  bunniesArray.forEach((bunny) => {
+    bunny.drawBunny();
+    bunny.moveBunny();
+  });
+
+  //todo if two bunnies collide, call appropriate function
+
+  requestAnimationFrame(update);
+}
+
+
 
 //starts simulation when Start button is clicked
 document.getElementById("start-btn").addEventListener("click",function() {
