@@ -122,6 +122,8 @@ function update() {
   });
 
   //todo if two bunnies collide, call appropriate function
+  //todo on each draw check and see if ANY 2 bunnies have collided by iterating over all bunnies' x and y coordinates
+
 
   requestAnimationFrame(update);
 }
