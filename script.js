@@ -10,7 +10,7 @@
 })();
 
 
-let canvas = document.getElementById("bunnies")
+let canvas = document.getElementById("canvas")
 let ctx = canvas.getContext("2d")
 
 let cWidth = 500
@@ -23,8 +23,8 @@ canvas.height = cHeight;
 class BunnyFactory{
   constructor(){ 
   }
-  createMale(){
-    return new Bunny(randomInt(), randomInt(),  10, 10)
+  createBunny(){
+    return new Bunny(cWidth/2, cHeight/2, 20, 20)
   }
 }
 
@@ -36,55 +36,39 @@ class Bunny{
     this.width=width;
     this.speed=3; 
     this.velX=0;
-    this.velY=0
-    this.jumping=false;
+    this.velY=0;
   }
+
+  
 }
 
 const bob=new Bunny(cWidth/2, cHeight/2, 20, 20)
 
-// player = {
-//     x: cWidth / 2,
-//     y: cHeight - 5,
-//     width: 5,
-//     height: 5,
-//     speed: 3,
-//     velX: 0,
-//     velY: 0,
-//     jumping: false
-//   }
+function getDirection(max) {
+	return Math.floor(Math.random() * max);
+}
 
-// let keys = []
-// let friction = 0.8
-// let gravity = 0.2;
+//draws rectangle
+function drawBunny(color){
+  ctx.fillStyle = "red";
+  ctx.fillRect(bob.x, bob.y, bob.width, bob.height);
+}
 
+function moveBunny(){
+  let direction = getDirection(4);
 
+	if (direction === 0) {
+	    bob.x+=bob.width
+	} else if (direction === 1) {
+	    bob.y+=bob.height
+	} else if (direction === 2) {
+	    bob.x+=-bob.width
+	} else if (direction === 3) {
+	    bob.y+=-bob.height
+	}
+}
 
 function update() {
-  // // check keys
-  // if (keys[38] || keys[32]) {
-  //   // up arrow or space
-  //   if (!player.jumping) {
-  //     player.jumping = true;
-  //     player.velY = -player.speed * 2;
-  //   }
-  // }
-
-  // if (keys[39]) { // right arrow
-  //   if (player.velX < player.speed) {
-  //     player.velX++;
-  //   }
-  // }
-  // if (keys[37]) {
-  //   // left arrow
-  //   if (player.velX > -player.speed) {
-  //     player.velX--;
-  //   }
-  // }
-
-  // player.velX *= friction;
-
-  // player.velY += gravity;
 
   bob.x += bob.velX;
   bob.y += bob.velY;
@@ -95,18 +79,12 @@ function update() {
   } else if (bob.x <= 0) {
     bob.x = 0;
   }
-  
-//jumping
-  if (bob.y >= cHeight - bob.height) {
-    bob.y = cHeight - bob.height;
-    bob.jumping = false;
-  }
 
-//draws rectangle
+  //todo: collision detection for top/bottom
+
   ctx.clearRect(0, 0, cWidth, cHeight);
-  ctx.fillStyle = "red";
-  ctx.fillRect(bob.x, bob.y, bob.width, bob.height);
-
+  drawBunny();
+  moveBunny();
   requestAnimationFrame(update);
 }
 
