@@ -35,7 +35,21 @@ class Bunny{
     this.name=name;
   }
 
+  //moves bunnies
   moveBunny(){
+    
+    //random movement
+    let direction = getDirection(4);
+    if (direction === 0) {
+        this.x+=this.width
+    } else if (direction === 1) {
+        this.y+=this.height
+    } else if (direction === 2) {
+        this.x+=-this.width
+    } else if (direction === 3) {
+        this.y+=-this.height
+    }
+
     //collision detection for left/right wall
     if (this.x >= cWidth - this.width) {
       this.x = cWidth - this.width;
@@ -55,17 +69,7 @@ class Bunny{
     this.x += this.velX;
     this.y += this.velY;
 
-    //random movement
-    let direction = getDirection(4);
-    if (direction === 0) {
-        this.x+=this.width
-    } else if (direction === 1) {
-        this.y+=this.height
-    } else if (direction === 2) {
-        this.x+=-this.width
-    } else if (direction === 3) {
-        this.y+=-this.height
-    }
+
   }
 
     //draws bunny
